@@ -1,0 +1,280 @@
+# End-to-End DevSecOps & GitOps Project Documentation
+
+## Project Objective
+
+Build a complete DevSecOps pipeline capable of:
+
+* Building microservices
+* Scanning code
+* Creating Docker images
+* Deploying to Kubernetes
+* Monitoring applications
+* Managing deployments using GitOps
+
+---
+
+# Environment
+
+## Hardware
+
+MacBook M2
+
+## Virtualization
+
+OrbStack
+
+## Kubernetes
+
+K3s Cluster
+
+---
+
+# Project Workflow
+
+## Phase 1: Source Control
+
+Repository hosted on GitHub.
+
+Code changes trigger Jenkins pipelines.
+
+---
+
+## Phase 2: Jenkins CI Pipeline
+
+### Checkout
+
+Pull latest source code.
+
+### Gitleaks
+
+Detect exposed secrets.
+
+### SonarQube
+
+Perform static analysis.
+
+### Trivy FS Scan
+
+Scan source code filesystem.
+
+### Docker Build
+
+Build all microservice images.
+
+### Docker Push
+
+Push images to Docker Hub.
+
+---
+
+# Docker Challenges Encountered
+
+## ImagePullBackOff
+
+Cause:
+
+Incorrect image names in Kubernetes manifests.
+
+Solution:
+
+Updated image references:
+
+```yaml
+image: majid04/paymentservice:micro-service
+```
+
+---
+
+## Cart Service Failure
+
+### Issue
+
+Cart Service Dockerfile located at:
+
+```text
+src/cartservice/src/Dockerfile
+```
+
+while other services used:
+
+```text
+src/service-name/Dockerfile
+```
+
+### Impact
+
+Incorrect Jenkins image naming.
+
+### Fix
+
+Updated Jenkins build logic:
+
+```bash
+service=$(echo "$dockerfile" | cut -d'/' -f2)
+```
+
+---
+
+# Kubernetes Deployment
+
+Namespace:
+
+```bash
+kubectl create namespace microservices
+```
+
+Deployment:
+
+```bash
+kubectl apply -n microservices -k kubernetes-manifests
+```
+
+---
+
+# Kubernetes Issues Solved
+
+## OpenAPI Validation Failure
+
+Error:
+
+```text
+connection refused 127.0.0.1:6443
+```
+
+Cause:
+
+K3s API server unavailable.
+
+Resolution:
+
+Restarted K3s cluster.
+
+---
+
+## Kustomization Error
+
+Error:
+
+```text
+no matches for kind "Kustomization"
+```
+
+Cause:
+
+Used:
+
+```bash
+kubectl apply -f
+```
+
+on kustomization.yaml.
+
+Resolution:
+
+```bash
+kubectl apply -k kubernetes-manifests
+```
+
+---
+
+# Namespace Isolation
+
+Created:
+
+```text
+microservices
+```
+
+Benefits:
+
+* Isolation
+* Easier Monitoring
+* Better Resource Management
+
+---
+
+# GitOps Implementation
+
+Tool:
+
+Argo CD
+
+Application Configuration:
+
+* Repository URL
+* Target Branch
+* Manifest Path
+* Destination Namespace
+
+Automatic Sync Enabled.
+
+---
+
+# Monitoring Stack
+
+## Prometheus
+
+Purpose:
+
+* Metrics Collection
+* Resource Monitoring
+
+## Grafana
+
+Purpose:
+
+* Dashboard Visualization
+* Cluster Health Monitoring
+
+---
+
+# Final Verification
+
+All services successfully deployed.
+
+Frontend exposed through:
+
+```text
+NodePort / LoadBalancer Service
+```
+
+Application accessible via browser.
+
+Successfully validated:
+
+* Product Listing
+* Cart Operations
+* Checkout Workflow
+
+---
+
+# Key DevOps Concepts Learned
+
+* CI/CD
+* GitOps
+* Kubernetes
+* Docker
+* Observability
+* Security Scanning
+* Infrastructure Troubleshooting
+* Production Deployment Lifecycle
+
+---
+
+# Future Improvements
+
+* Terraform Infrastructure as Code
+* Helm Charts
+* AWS EKS Deployment
+* External Secrets Management
+* Loki Log Aggregation
+* AlertManager Integration
+* Multi-Environment Deployments
+
+---
+
+# Author
+
+Majidulla SK
+
+DevOps Engineer | Cloud Enthusiast | Open Source Learner
