@@ -161,74 +161,7 @@ Features:
 Majidulla SK
 
 GitHub: https://github.com/Majidullask04
-
-┌─────────────────────────────────────────────────────────────────────────┐
-│                              GitHub                                     │
-│                    (Source Code + Manifests)                            │
-└───────────────────────────────┬─────────────────────────────────────────┘
-                                │ Webhook
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           Jenkins CI Server                             │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
-│  │   Git       │  │  Gitleaks   │  │  SonarQube  │  │   Trivy FS      │  │
-│  │  Checkout   │  │   Scan      │  │   Analysis  │  │     Scan        │  │
-│  └──────┬──────┘  └─────────────┘  └─────────────┘  └─────────────────┘  │
-│         │                                                                 │
-│         ▼                                                                 │
-│  ┌─────────────────────────────────────────────────────────────────┐     │
-│  │              Docker Build & Push (per service)                   │     │
-│  │         majid04/<service>:micro-service → Docker Hub             │     │
-│  └─────────────────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           ArgoCD (GitOps)                               │
-│              Continuously syncs K8s manifests from Git                  │
-└───────────────────────────────┬─────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        K3s Kubernetes Cluster                           │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │                     Namespace: microservices                     │   │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐           │   │
-│  │  │ Frontend │ │  Cart    │ │ Checkout │ │ Payment  │  ...      │   │
-│  │  │  Service │ │ Service  │ │ Service  │ │ Service  │           │   │
-│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘           │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │                     Observability Stack                          │   │
-│  │  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐  │   │
-│  │  │Prometheus│───→│ Grafana  │    │  Loki    │←───│ Promtail │  │   │
-│  │  │ (Metrics)│    │(Dashboard)│   │  (Logs)  │    │(Collect) │  │   │
-│  │  └──────────┘    └──────────┘    └──────────┘    └──────────┘  │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────┘
-
-Git Push
-    │
-    ├──→ Stage 1: Git Checkout
-    │         Pull latest from Majidullask04-patch-1 branch
-    │
-    ├──→ Stage 2: Gitleaks Scan
-    │         Detect hardcoded secrets, API keys, tokens
-    │
-    ├──→ Stage 3: SonarQube Analysis
-    │         Static analysis for bugs, vulnerabilities, code smells
-    │
-    ├──→ Stage 4: Quality Gate
-    │         Wait for SonarQube pass/fail verdict
-    │
-    ├──→ Stage 5: Trivy Filesystem Scan
-    │         Scan dependencies and configs for CVEs
-    │
-    ├──→ Stage 6: Docker Build & Push
-    │         Build per-service images → majid04/<service>:micro-service
-    │
-    └──→ Stage 7: Deploy to K3s
-              kubectl apply -k kubernetes-manifests -n microservices
+        
 
 # End-to-End DevSecOps & GitOps Architecture
 
