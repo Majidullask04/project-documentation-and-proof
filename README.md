@@ -161,6 +161,42 @@ Features:
 Majidulla SK
 
 GitHub: https://github.com/Majidullask04
+
+# 3-Tier Microservices DevSecOps Platform
+
+## Overview
+End-to-end CI/CD pipeline for a 10+ microservices application deployed on K3s 
+with automated security scanning, GitOps delivery, and full observability 
+(Prometheus + Grafana + Loki).
+
+## Architecture
+[Insert draw.io diagram or hand-drawn sketch photo]
+
+## Tech Stack
+| Layer | Tools |
+|-------|-------|
+| Orchestration | K3s, kubectl |
+| CI/CD | Jenkins (Declarative Pipeline) |
+| GitOps | ArgoCD |
+| Security | SonarQube, Trivy, Gitleaks |
+| Monitoring | Prometheus, Grafana, Loki |
+| Registry | Docker Hub |
+
+## Screenshots
+[Insert 4-5 images: Jenkins Pipeline, ArgoCD Tree, Grafana Dashboard, kubectl pods output]
+
+## Pipeline Stages
+1. Git Checkout → 2. Secret Scan (Gitleaks) → 3. SAST (SonarQube) 
+→ 4. Quality Gate → 5. FS Scan (Trivy) → 6. Build & Push Docker Images 
+→ 7. Deploy to K3s
+
+## What I Learned
+- Debugging K3s networking and ArgoCD sync issues
+- Integrating security gates without breaking delivery speed
+- Setting up Loki log aggregation for multi-service debugging
+
+## Quick Start
+[Keep this short — 5 commands max]
         
 
 # End-to-End DevSecOps & GitOps Architecture
